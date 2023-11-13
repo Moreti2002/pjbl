@@ -1,0 +1,11 @@
+laranja:
+#fe4818
+
+branco:
+#ffff
+
+azul:
+#1c5c65
+
+preto:
+#191919

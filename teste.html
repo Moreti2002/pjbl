@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Formulário de Login</title>
+</head>
+<body>
+    <h1>Formulário de Login</h1>
+    <form id="loginForm">
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" required><br><br>
+
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha" required><br><br>
+
+        <button type="button" id="enviar">Enviar</button>
+    </form>
+
+    <script>
+        document.getElementById('enviar').addEventListener('click', function() {
+            // Coletar os valores do email e senha do formulário
+            var email = document.getElementById('email').value;
+            var senha = document.getElementById('senha').value;
+
+            // Criar um objeto JSON com os dados
+            var dados = {
+                email: email,
+                senha: senha
+            };
+
+            // Enviar os dados para o servidor
+            fetch('http://127.0.0.1:8080/receberjson', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dados)
+            })
+            .then(function(response) {
+                if (response.status === 200) {
+                    alert('Dados enviados com sucesso!');
+                } else {
+                    alert('Erro ao enviar os dados.');
+                }
+            })
+            .catch(function(error) {
+                alert('Erro ao enviar os dados: ' + error);
+            });
+        });
+    </script>
+</body>
+</html>

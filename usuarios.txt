@@ -1,2 +1,1 @@
-nome, email, genero, cpf, cidade, estado_uf, telefone, tipo_usuario, idade, tipo_usuario, numero_cartoes_credito;
-essa e a linha dois
+email, senha, nome, genero, cpf, idade, cidade, estado_uf

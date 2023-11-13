@@ -1,0 +1,17 @@
+body {
+    background-color: steelblue;
+}
+
+form {
+    margin-top: 7.5em;
+    margin-left: 30em;
+    margin-right: 30em;
+    background-color: aliceblue;
+    padding: 2em;
+    border-radius: 2em;
+    
+}
+
+.btn {
+    margin-top: 1em;
+}
