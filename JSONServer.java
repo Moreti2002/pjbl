@@ -40,6 +40,8 @@ public class JSONServer {
             headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
             headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
+            
+
             // le json de client
             InputStream requestBody = exchange.getRequestBody();
             InputStreamReader isr = new InputStreamReader(requestBody);
@@ -56,9 +58,11 @@ public class JSONServer {
 
             System.out.println("JSON recebido: " + receivedJSON);
 
-            JSONObject responseJson = new JSONObject();
 
             JSONParser parser = new JSONParser();
+
+
+            
             try {
                 Object obj = parser.parse(receivedJSON);
                 JSONObject jsonObject = (JSONObject) obj;
@@ -73,9 +77,15 @@ public class JSONServer {
                     String x = Autentica.autentica(email, senha);
                     if (x.equals("correta")) {
                         // redirecionar para pagina do cliente
-                        responseJson.put("status", "success");
+                        // Envie uma resposta de sucesso
+                        String resposta = "{\"mensagem\": \"Login bem-sucedido!\"}";
+                        enviarResposta(exchange, 200, resposta);
                     } else {
                         // mandar json incorreta
+                        // Envie uma resposta de sucesso
+                        String resposta = "{\"mensagem\": \"Login falhou!\"}";
+                        enviarResposta(exchange, 401, resposta);
+
                     }
 
                 } else {
@@ -89,8 +99,6 @@ public class JSONServer {
 
                         
                     } else {
-                        // inserir dados no banco
-
                         String nome = (String) jsonObject.get("cadastroNome");
                         String genero = (String) jsonObject.get("cadastroGenero");
                         String cpf = (String) jsonObject.get("cadastroCpf");
@@ -98,9 +106,9 @@ public class JSONServer {
                         String cidade = (String) jsonObject.get("cadastroCidade");
                         String estado_uf = (String) jsonObject.get("cadastroEstado_uf");
                         
-                        // TODO: salvar no txt aqui
                         Dados.salvar(email, senha, nome, genero, cpf, idade, cidade, estado_uf);
-
+                        
+                        // direcionar para pagina de usuario
                     }
                 }
 
@@ -128,6 +136,13 @@ public class JSONServer {
             os.write(response.getBytes());
             os.close();
         }
+    }
+
+    private static void enviarResposta(HttpExchange exchange, int statusCode, String resposta) throws IOException {
+        exchange.sendResponseHeaders(statusCode, resposta.length());
+        OutputStream os = exchange.getResponseBody();
+        os.write(resposta.getBytes());
+        os.close();
     }
 }
  

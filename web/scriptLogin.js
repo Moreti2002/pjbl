@@ -21,13 +21,19 @@ document.getElementById('submit').addEventListener('click', function(event) {
     })
     .then(function(response) {
         if (response.status === 200) {
-            alert('Dados enviados com sucesso!');
+            // Se a resposta for bem-sucedida, ler o corpo da resposta
+            return response.json();
         } else {
-            alert('Erro ao enviar os dados.');
+            throw new Error('Erro ao enviar os dados.');
         }
     })
+    .then(function(data) {
+        // Exibir os dados recebidos no alert
+        alert('Dados recebidos com sucesso!\n' + JSON.stringify(data));
+    })
     .catch(function(error) {
-        alert('Erro ao enviar os dados: ' + error);
+        // Exibir erro no alert em caso de falha
+        console.error('Erro ao enviar ou receber os dados:', error);
+        alert('Erro ao enviar ou receber os dados: ' + error.message);
     });
 });
-
